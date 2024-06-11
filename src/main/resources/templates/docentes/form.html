@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Facultad</title>
+        <div th:replace="/comunes/navbar.html"></div>
+        <div th:replace="/comunes/fragmentos.html :: head"></div>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+        <body><br>
+            <div class="container">     
+              <form method="post" th:action="@{/docentes/guardar}"  th:object="${dato}" class="border border-dark rounded p-5 shadow">
+                <h2 style="text-align: center;" th:text="${title}">title</h2>
+                  <input type="hidden" id="id"  th:field="*{id}"  > <br>
+             <label for="name">Nombre:</label><br>
+                <input class="form-control" type="text" id="fname" name="fname" th:field="*{fname}" required ><br>
+                <label   for="sigla">Apellido</label><br>
+                <input class="form-control" type="text" id="lname" name="lname" th:field="*{lname}" required><br>
+                <label   for="sigla">Correo</label><br>
+                <input class="form-control" type="text" id="email" name="email" th:field="*{email}"  required ><br>
+                <label   for="sigla">Fecha de Cumpleaños:</label><br>
+                <input class="form-control" type="date" id="dob" name="dob" th:field="*{dob}" required><br>
+               <label   for="sigla">Celular</label><br>
+               <input class="form-control" type="text" id="mobile" name="mobile" th:field="*{mobile}"  required><br>
+                <input class="btn btn-success"  type="submit" value="Enviar">
+                <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+            </form> 
+        </div>    
+    </body>
+</html>

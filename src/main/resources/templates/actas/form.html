@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actas</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <div th:replace="/comunes/fragmentos.html :: head"></div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .file-drop-area {
+            border: 2px dashed #0059ff;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .file-drop-area input[type="file"] {
+            display: none;
+        }
+        .file-drop-area:hover {
+            border-color: #999;
+        }
+    </style>
+</head>
+<body><br>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" th:action="@{/actas/guardar}" th:object="${acta}" class="border border-dark rounded p-5 shadow">
+            <h1 style="text-align: center;">Editar Acta:</h1>
+            <input type="hidden" id="id" th:field="*{id}">
+            <div class="form-group">
+                <label for="nombre">Codigo del acta:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{codigo}" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Fecha del acta:</label>
+                <input type="date" class="form-control" id="rdate" name="rdate" th:field="*{rdate}" required>
+            </div>           
+            <div class="form-group">
+                <label for="file" class="form-label">Archivo del acta:</label>
+                <div class="file-drop-area" id="dropzone-acta">
+                    Arrastra el archivo aquí o haz clic para seleccionarlo
+                    <input type="file" id="file" name="file" th:field="*{file}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="date">Fecha de Recepción del Acta:</label>
+                <input type="date" class="form-control" id="date" name="date" th:field="*{date}" required>
+            </div>
+            <div class="form-group">
+                <label for="sheet" class="form-label">Archivo de la Planilla:</label>
+                <div class="file-drop-area" id="dropzone-planilla">
+                    Arrastra el archivo aquí o haz clic para seleccionarlo
+                    <input type="file" id="sheet" name="sheet" th:field="*{sheet}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="materia" class="form-label">Materia:</label>
+                <select class="form-control" id="materia" name="materia" th:field="*{materia}">
+                    <option th:each="materia : ${materias}" th:value="${materia.id}" th:text="${materia.nombre}"> </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="oportunidad" class="form-label">Oportunidad:</label>
+                <select class="form-control" id="oportunidad" name="oportunidad" th:field="*{oportunidad}">
+                    <option th:each="oportunidad : ${oportunidades}" th:value="${oportunidad.id}" th:text="${oportunidad.codigo}"> </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="usuario" class="form-label">Usuario:</label>
+                <select class="form-control" id="usuario" name="usuario" th:field="*{usuario}">
+                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}+' '+${usuario.apellido}"> </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Crear</button>
+            <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+        </form><br>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function setupDropzone(dropzoneId, inputId) {
+                var dropzone = document.getElementById(dropzoneId);
+                var input = document.getElementById(inputId);
+
+                dropzone.addEventListener('click', function() {
+                    input.click();
+                });
+
+                dropzone.addEventListener('dragover', function(event) {
+                    event.preventDefault();
+                    dropzone.classList.add('dragover');
+                });
+
+                dropzone.addEventListener('dragleave', function() {
+                    dropzone.classList.remove('dragover');
+                });
+
+                dropzone.addEventListener('drop', function(event) {
+                    event.preventDefault();
+                    dropzone.classList.remove('dragover');
+                    input.files = event.dataTransfer.files;
+                    dropzone.textContent = event.dataTransfer.files[0].name;
+                });
+
+                input.addEventListener('change', function() {
+                    dropzone.textContent = input.files[0].name;
+                });
+            }
+
+            setupDropzone('dropzone-acta', 'file');
+            setupDropzone('dropzone-planilla', 'sheet');
+        });
+    </script>
+</body>
+</html>

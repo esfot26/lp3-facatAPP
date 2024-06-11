@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materias</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <br>
+    <br>
+    <div class="container">
+        <form method="post" th:action="@{/materias/guardar}" th:object="${materia}"class="border border-dark rounded p-5 shadow">
+            <h2 style="text-align: center;"   th:text="${title}">title</h2>
+            <input type="hidden" id="id" th:field="*{id}">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" required>
+            </div>
+            <div class="form-group">
+                <label for="codigo">Codigo:</label>
+                <input type="text" class="form-control" id="codigo" name="codigo" th:field="*{codigo}"required>
+            </div>
+             <div class="form-group">
+                <label for="anho">Año:</label>
+                <input type="text" class="form-control" id="year" name="year" th:field="*{year}"required>
+            </div>
+            <div class="form-group">
+                <label for="carrera">Carrera:</label>
+                <select class="form-control" id="carrera" name="carrera.id" th:field="*{carrera.id}" required>
+                    <option value=""> Seleccione una carrera</option>
+                    <option th:each="carrera : ${carreras}" th:value="${carrera.id}" th:text="${carrera.nombre}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+            <label for="docente">Docente:</label>
+            <select class="form-control" id="docente" name="docente.id" th:field="*{docente.id}" required>
+                <option value=""> Seleccione un docente</option>
+                <option th:each="docente : ${docentes}" th:value="${docente.id}" th:text="${docente.fname}+' '+${docente.lname}"></option>
+            </select>
+            </div>
+            <input type="submit" class="btn btn-success" value="Enviar">
+            <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+        </form><br>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

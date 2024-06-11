@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${title}">Document</title>
+        <link rel="icon" href="/images/logo.png" type="image/png">
+        <div th:replace="/comunes/fragmentos.html :: head"></div>
+    </head>    
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">
+            <img src="https://scontent.fasu4-1.fna.fbcdn.net/v/t1.6435-9/45643870_2306222129407005_5111690245418516480_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=A3iyAKKkI8IQ7kNvgHwamuy&_nc_ht=scontent.fasu4-1.fna&oh=00_AYDEQKUK_TKI4HnnA_3owmvyMITP5pJbyTjpzUGJGt__1Q&oe=6679E448" class="img-responsive" alt="logo" style="height: 75px ; border-radius: 50%">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/actas/}">Actas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/carreras/}">Carreras</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/docentes/}">Docentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/facultades/}">Facultades</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/materias/}">Materias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/usuarios/}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/roles/}">Roles</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</html>

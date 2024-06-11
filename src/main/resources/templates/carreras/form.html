@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facultad</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <div th:replace="/comunes/fragmentos.html :: head"></div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body><br>
+    <div class="container">
+        <form method="post" th:action="@{/carreras/guardar}" th:object="${carrera}" class="border border-dark rounded p-5 shadow">
+            <input type="hidden" id="id" th:field="*{id}">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" required>
+            </div>
+            <div class="form-group">
+                <label for="facultad">Facultad:</label>
+                <select id="facultad" name="facultad" class="form-control" onchange="actualizarSigla()" >
+                    <option value="">Selecciona una facultad</option>
+                    <option th:each="facu : ${facultades}" th:value="${facu.id}" th:text="${facu.nombre} "></option>     
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Sigla:</label>
+                <input type="text" class="form-control" id="sigla" name="sigla" th:field="*{sigla}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Enviar</button>
+            <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+        </form><br>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <script th:inline="javascript">
+
+        var facultades = /*[[${facultadesList}]]*/ [];
+
+        function actualizarSigla() {
+            var selectedFacultadId = document.getElementById("facultad").value;
+            var siglaInput = document.getElementById("sigla");
+
+            var sigla = facultades.find(function(facu) {
+                return facu.id == selectedFacultadId;
+            });
+
+            /* Completar el valor del campo de la sigla */
+            if (sigla) {
+                siglaInput.value = sigla.sigla;
+            } else {
+                siglaInput.value = ""; 
+            }
+        }
+    </script>
+</body>
+</html>
+

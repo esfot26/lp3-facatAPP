@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actas</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <div th:replace="/comunes/fragmentos.html :: head"></div>
+    <style>
+        .table {
+            border: 2px solid #dee2e6; /* Cambia el grosor y color del borde */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Agrega una sombra para resaltar la tabla */
+        }
+
+        .table thead th,
+        .table tbody td {
+            border: 1px solid #dee2e6; /* Cambia el grosor y color del borde de las celdas */
+        }
+
+        .table .actions-column {
+            width: 150px; /* Ajusta el ancho según sea necesario */
+            text-align: center; /* Centra el contenido */
+        }
+
+        .table .btn {
+            margin: 2px; /* Ajusta el margen para separar los botones */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <br>
+    <h1>Gestión de Carreras</h1><br>    
+    <h2 th:text="${header}">title</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <th>Código del Acta</th>
+            <th>Fecha del Acta</th>
+            <th>Archivo del Acta</th>
+            <th>Fecha de Recepción</th>
+            <th>Archivo de la Planilla</th>
+            <th>Materia</th>
+            <th>Oportunidad</th>
+            <th>Usuario</th>
+            <th class="actions-column">Acciones</th>
+        </thead>
+        <tbody>       
+            <tr th:each="acta:${actas}">
+                <td th:text="${acta.codigo}"></td>
+                <td th:text="${acta.date}"></td>
+                <td th:text="${acta.file}"></td>
+                <td th:text="${acta.rdate}"></td>
+                <td th:text="${acta.sheet}"></td>
+                
+                <td th:text="${acta.materia.nombre}"></td>
+                <td th:text="${acta.oportunidad.codigo}"></td>
+                <td th:text="${acta.usuario.nombre}"></td>
+                <td class="actions-column">
+                    <a class="btn btn-warning btn-sm" th:href="@{/actas/editar/{id}(id=${acta.id})}">Editar</a>
+                    <a class="btn btn-danger btn-sm" th:href="@{/actas/borrar/{id}(id=${acta.id})}" onclick="return confirm('¿Estás seguro de que deseas borrar esta carrera?');">Borrar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <th colspan="8">
+        <a href="/actas/nuevo" class="btn btn-primary">Crear nueva acta</a>
+    </th>    
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            var searchValue = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#actasTable tr');
+    
+            rows.forEach(function(row) {
+                var showRow = Array.from(row.cells).some(function(cell) {
+                    return cell.textContent.toLowerCase().includes(searchValue);
+                });
+    
+                if (showRow) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

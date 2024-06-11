@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Agregar Roles</title>
+        <div th:replace="/comunes/navbar.html"></div>
+        <div th:replace="/comunes/fragmentos.html :: head"></div>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        
+    </head>
+        <body>
+            <div class="container">    
+                <h2 th:text="${title}+${dato.nombre}">title</h2> 
+              <form method="post" th:action="@{/roles/guardar}" th:object="${dato}" class="border border-dark rounded p-5 shadow">  
+                <div class="form-group">
+                <input type="hidden" id="id"  th:field="*{id}"  > <br>
+                <label for="name">Nombre:</label><br>
+                <input class="form-control" type="text" id="nombre" name="nombre" th:field="*{nombre}" ><br>
+                </div>  
+                <input class="btn btn-success"  type="submit" value="Enviar">
+                <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+            </form> 
+        </div>    
+    </body>
+</html>

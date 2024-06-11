@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Facultad</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <div th:replace="/comunes/fragmentos.html :: head"></div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body><br>
+    <div class="container">
+        <form method="post" th:action="@{/oportunidades/guardar}" th:object="${oportunidad}" class="border border-dark rounded p-5 shadow">
+            <h2 style="text-align: center;" th:text="${title}">title</h2>
+            <input type="hidden" th:field="*{id}" />
+            <div class="form-group"><br>
+                <label for="codigo">Código de la oportunidad:</label>
+                <input class="form-control" type="text" id="codigo" name="codigo" th:field="*{codigo}" required><br>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre de la oportunidad:</label>
+                <input class="form-control" type="text" id="nombre" name="nombre" th:field="*{nombre}" required><br>
+            </div>
+            <input class="btn btn-success" type="submit" value="Enviar">
+            <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+        </form>
+    </div>
+</body>
+</html>

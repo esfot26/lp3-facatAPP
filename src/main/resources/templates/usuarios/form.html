@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <br>
+    <br>
+    <div class="container">
+        <form method="post" th:action="@{/usuarios/guardar}" th:object="${usuario}"class="border border-dark rounded p-5 shadow">
+            <h2 style="text-align: center;"   th:text="${title}">title</h2>
+            <input type="hidden" id="id"  th:field="*{id}"  > <br>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" required>
+            </div>
+            <div class="form-group">
+                <label for="codigo">Apellido:</label>
+                <input type="text" class="form-control" id="apellido" name="apellido" th:field="*{apellido}"required>
+            </div>
+             <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" th:field="*{email}"required>
+            </div>
+            <div class="border rounded">
+                <div class="form-group">
+                    <label>Roles:</label><br>
+                    <div th:each="rol : ${roles}" class="ml-4"> 
+                        <input type="checkbox" id="rol-[[${rol.id}]]" name="roles" th:value="${rol.id}">
+                        <label for="rol-[[${rol.id}]]" th:text="${rol.nombre}" style="padding-left: 5px;"></label><br> <!-- Añade padding-left -->
+                    </div>
+                </div>
+            </div>
+            <br>                      
+            <input type="submit" class="btn btn-success" value="Enviar">
+            <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
+        </form><br>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

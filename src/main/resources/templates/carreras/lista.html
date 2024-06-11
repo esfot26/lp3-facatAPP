@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Document</title>
+    <div th:replace="/comunes/navbar.html"></div>
+    <div th:replace="/comunes/fragmentos.html :: head"></div>
+    <style>
+        .table {
+            border: 2px solid #dee2e6; /* Cambia el grosor y color del borde */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Agrega una sombra para resaltar la tabla */
+        }
+
+        .table thead th,
+        .table tbody td {
+            border: 1px solid #dee2e6; /* Cambia el grosor y color del borde de las celdas */
+        }
+
+        .table .actions-column {
+            width: 150px; /* Ajusta el ancho según sea necesario */
+            text-align: center; /* Centra el contenido */
+        }
+
+        .table .btn {
+            margin: 2px; /* Ajusta el margen para separar los botones */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <br>
+    <h1>Gestión de Carreras</h1><br>    
+    <h2 th:text="${header}">title</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <th>ID</th>
+            <th>Sigla</th>
+            <th>Facultad</th>
+            <th class="actions-column">Acciones</th>
+        </thead>
+        <tbody>       
+            <tr th:each="carrera:${carreras}">
+                <td th:text="${carrera.id}"></td>
+                <td th:text="${carrera.sigla}"></td>
+                <td th:text="${carrera.nombre}"></td>
+                <td class="actions-column">
+                    <a class="btn btn-warning btn-sm" th:href="@{/carreras/editar/{id}(id=${carrera.id})}">Editar</a>
+                    <a class="btn btn-danger btn-sm" th:href="@{/carreras/borrar/{id}(id=${carrera.id})}" onclick="return confirm('¿Estás seguro de que deseas borrar esta carrera?');">Borrar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <th colspan="2"><a href="/carreras/nuevo" class="btn btn-primary">Crear nueva carrera</a></th>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
