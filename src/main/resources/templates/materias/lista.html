@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">Document</title>
+    <title>Materias</title>
     <div th:replace="/comunes/navbar.html"></div>
     <div th:replace="/comunes/fragmentos.html :: head"></div>
     <style>
@@ -16,6 +16,7 @@
         .table tbody td {
             border: 1px solid #dee2e6; 
         }
+        
 
         .table .actions-column {
             width: 140px; 
@@ -25,42 +26,81 @@
         .table .btn {
             margin: 2px; 
         }
+        .btn-crear{
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <br>
-        <h1>Gestión de Materias</h1><br>
+        <h1>Gestión de Materias</h1>
+        <br>
+        <div class="mb-4">
+            <span class="filter-label">Filtrar por Carrera:</span><br>
+            <div th:each="carrera : ${carreras}" class="form-check form-check-inline">
+                <input class="form-check-input carrera-checkbox" type="checkbox" th:value="${carrera.nombre}" th:id="${carrera.nombre}" onchange="filtrarCarreras()">
+                <label class="form-check-label checkbox-label" th:for="${carrera.nombre}" th:text="${carrera.nombre}"></label>
+            </div>
+        </div>
+        <br>
         <table class="table table-striped">
             <thead class="thead-dark">
-                <th>ID</th>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Año</th>
-                <th>Carrera</th>
-                <th>Docente</th>
-                <th class="actions-column">Acciones</th>
+                <tr>
+                    <th>ID</th>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Año</th>
+                    <th>Carrera</th>
+                    <th>Docente</th>
+                    <th class="actions-column">Acciones</th>
+                </tr>
             </thead>
-            <tbody>       
-                <tr th:each="materia:${materias}">
+            <tbody id="materiasTabla">       
+                <tr th:each="materia : ${materias}">
                     <td th:text="${materia.id}"></td>
-                    
                     <td th:text="${materia.codigo}"></td>
                     <td th:text="${materia.nombre}"></td>
                     <td th:text="${materia.year}"></td>
-                    <td th:text="${materia.carrera.nombre}"></td>
-                    <td th:text="${materia.docente.lname}+' '+${materia.docente.fname}"></td>
+                    <td th:text="${materia.carrera.nombre}" class="carrera"></td>
+                    <td th:text="${materia.docente.lname} + ' ' + ${materia.docente.fname}"></td>
                     <td class="actions-column">
-                        <a class="btn btn-warning btn-sm" th:href="@{/materias/editar/}+${materia.id}">Editar</a>
-                        <a class="btn btn-danger btn-sm ml-2" th:href="@{/materias/borrar/}+${materia.id}" onclick="return confirm('¿Estás seguro de que deseas borrar esta materia?');">Borrar</a>
+                        <a class="btn btn-warning btn-sm" th:href="@{/materias/editar/} + ${materia.id}">Editar</a>
+                        <a class="btn btn-danger btn-sm ml-2" th:href="@{/materias/borrar/} + ${materia.id}" onclick="return confirm('¿Estás seguro de que deseas borrar esta materia?');">Borrar</a>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <th colspan="2">
-            <a href="/materias/nuevo" class="btn btn-primary">Crear nueva materia</a>
-        </th>
+        <div class="btn-crear">
+            <a href="/materias/nuevo" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Crear nueva materia
+            </a>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <a href="/materias/nuevo" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Crear nueva materia
+        </a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function filtrarCarreras() {
+            var checkboxes = document.querySelectorAll('.carrera-checkbox');
+            var table = document.getElementById("materiasTabla");
+            var trs = table.getElementsByTagName("tr");
+            var selectedCarreras = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value.toLowerCase());
+
+            for (var i = 0; i < trs.length; i++) {
+                var carrera = trs[i].getElementsByClassName("carrera")[0].textContent.toLowerCase();
+                if (selectedCarreras.length === 0 || selectedCarreras.includes(carrera)) {
+                    trs[i].style.display = "";
+                } else {
+                    trs[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
