@@ -22,6 +22,8 @@ import unae.lp3.FacatAPP.repository.MateriaRepository;
 @Controller
 @RequestMapping("/materias")
 public class MateriaController {
+
+    
     
     @Autowired
     private MateriaRepository materiaRepository;
@@ -34,10 +36,16 @@ public class MateriaController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<Materia> materia = materiaRepository.findAll();
-        model.addAttribute("materias", materia);
+        List<Materia> materias = materiaRepository.findAll();
+        List<Carrera> carreras = carreraRepository.findAll();
+        List<Docente> docentes = docerepo.findAll();
+        model.addAttribute("materias", materias);
+        model.addAttribute("carreras", carreras);
+        model.addAttribute("docentes", docentes);
         return "materias/lista";
     }
+    
+
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
