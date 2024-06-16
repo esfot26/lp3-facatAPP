@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actas</title>
-    <div th:replace="/comunes/navbar.html"></div>
-    <div th:replace="/comunes/fragmentos.html :: head"></div>
+    <!-- <div th:replace="{/comunes/navbar.html}"></div>
+    <div th:replace="{/comunes/fragmentos.html :: head}"></div> -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .file-drop-area {
@@ -40,7 +40,7 @@
                 <label for="file" class="form-label">Archivo del acta:</label>
                 <div class="file-drop-area" id="dropzone-acta">
                     Arrastra el archivo aquí o haz clic para seleccionarlo
-                    <input type="file" id="file" name="file" th:field="*{file}">
+                    <input type="file" id="file" name="file" th:field="*{file}" required>
                 </div>
             </div>
             <div class="form-group">
@@ -51,7 +51,7 @@
                 <label for="sheet" class="form-label">Archivo de la Planilla:</label>
                 <div class="file-drop-area" id="dropzone-planilla">
                     Arrastra el archivo aquí o haz clic para seleccionarlo
-                    <input type="file" id="sheet" name="sheet" th:field="*{sheet}">
+                    <input type="file" id="sheet" name="sheet" th:field="*{sheet}" required>
                 </div>
             </div>
             <div class="form-group">
@@ -66,15 +66,9 @@
                     <option th:each="oportunidad : ${oportunidades}" th:value="${oportunidad.id}" th:text="${oportunidad.codigo}"> </option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="usuario" class="form-label">Usuario:</label>
-                <select class="form-control" id="usuario" name="usuario" th:field="*{usuario}">
-                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}+' '+${usuario.apellido}"> </option>
-                </select>
-            </div>
             <button type="submit" class="btn btn-success">Crear</button>
             <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>
-        </form><br>
+        </form>        
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

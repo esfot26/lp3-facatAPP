@@ -1,10 +1,11 @@
 package unae.lp3.FacatAPP.controller;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,24 @@ import unae.lp3.FacatAPP.model.Acta;
 import unae.lp3.FacatAPP.model.Materia;
 import unae.lp3.FacatAPP.model.Oportunidad;
 import unae.lp3.FacatAPP.model.Usuario;
+import unae.lp3.FacatAPP.repository.ActaRepository;
 import unae.lp3.FacatAPP.repository.MateriaRepository;
 import unae.lp3.FacatAPP.repository.OportunidadRepository;
 import unae.lp3.FacatAPP.repository.UsuarioRepositorio;
 import unae.lp3.FacatAPP.services.ActaServicio;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+
+
 
 @Controller
 @RequestMapping("/actas")
 public class ActaController {
+
+    @Autowired
+    private ActaRepository actaRepository;
 
     @Autowired
     private ActaServicio actaServicio;
@@ -44,7 +55,7 @@ public class ActaController {
     public String index(Model model) {
         List<Acta> actas = actaServicio.findAll();
         model.addAttribute("actas", actas);
-        return "actas/lista";  // Replace with your lista.html template path
+        return "actas/lista";  
     }
 
     @GetMapping("/nuevo")
@@ -60,31 +71,16 @@ public class ActaController {
         return "actas/form";
     }
 
-    // @PostMapping("/guardar")
-    // public String guardar(@ModelAttribute("acta") Acta acta) {
-    //     actaServicio.save(acta);
-    //     return "redirect:/actas/";
-    // }
-@PostMapping("/guardar")
-public String guardar(@ModelAttribute("acta") Acta acta,
-                      @RequestParam("file") MultipartFile file,
-                      @RequestParam("sheet") MultipartFile sheet) {
-    try {
-        // Convertir el contenido de los archivos a una representación de String (por ejemplo, Base64)
-        String fileContent = Base64.getEncoder().encodeToString(file.getBytes());
-        String sheetContent = Base64.getEncoder().encodeToString(sheet.getBytes());
-
-        // Guardar el contenido de los archivos como String
-        acta.setFile(fileContent);
-        acta.setSheet(sheetContent);
-
-        // Luego puedes guardar el objeto Acta
-        actaServicio.save(acta,file,sheet);
-    } catch (IOException e) {
-        e.printStackTrace();
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute Acta acta, @RequestParam MultipartFile file, @RequestParam MultipartFile sheet) {
+        try {
+            actaServicio.save(acta, file, sheet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/actas/";
     }
-    return "redirect:/actas/";
-}
+
 
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Integer id, Model model) {
@@ -104,4 +100,36 @@ public String guardar(@ModelAttribute("acta") Acta acta,
         actaServicio.deleteById(id);
         return "redirect:/actas/";
     }
+
+
+        @GetMapping("/verArchivo/{id}")
+        public ResponseEntity<Resource> verArchivo(@PathVariable Integer id) {
+            Acta acta = actaRepository.findById(id).orElse(null);
+            if (acta == null || acta.getFile() == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            ByteArrayResource resource = new ByteArrayResource(acta.getFile());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + acta.getCodigo() + ".pdf\"")
+                    .body(resource);
+        }
+
+        @GetMapping("/verArchivo/{id}/sheet")
+        public ResponseEntity<Resource> verArchivoSheet(@PathVariable Integer id) {
+            Acta acta = actaRepository.findById(id).orElse(null);
+            if (acta == null || acta.getSheet() == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            ByteArrayResource resource = new ByteArrayResource(acta.getSheet());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + acta.getCodigo() + "_planilla.pdf\"")
+                    .body(resource);
+        }
 }
+

@@ -79,7 +79,7 @@ public class MateriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute("materia") Materia materia) {
+    public String guardar(@ModelAttribute Materia materia) {
         materiaRepository.save(materia);
         return "redirect:/materias/";
     }

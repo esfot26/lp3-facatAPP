@@ -26,6 +26,12 @@ public class DocenteController {
     @Autowired
     private DocentesRepository mainrepo;
 
+    @Autowired
+    public void DocentesController (DocentesRepository mainrepo) {
+        this.mainrepo = mainrepo;
+    }
+
+
     @GetMapping("/")
     public String index(Model model) {
         List<Docente> datos = new LinkedList<Docente>();
@@ -38,6 +44,7 @@ public class DocenteController {
                 datos);
         return "docentes/lista";
     }
+
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
 
 
-import unae.lp3.FacatAPP.model.Rol;
 import unae.lp3.FacatAPP.model.Usuario;
 import unae.lp3.FacatAPP.repository.RolRepository;
 import unae.lp3.FacatAPP.repository.UsuarioRepositorio;
@@ -39,30 +39,28 @@ public class UsuarioController {
 
     @GetMapping("/")
     public String listaUsuarios(Model model) {
-        model.addAttribute("usuarios",usuarioServicio.listarUsuarios());
+        List<Usuario> usuarios = usuarioRepositorio.findAll();
+        model.addAttribute("usuarios", usuarios);
         return "usuarios/lista"; // Aquí estás especificando la ruta dentro de la carpeta templates
     }
 
     @GetMapping("/nuevo")
-    public String nuevo(Model model) {
-        List<Rol> roles = rolRepository.findAll();
-        Usuario usuario = new Usuario();
-        model.addAttribute("roles", roles);
+    public String nuevo(Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("mensaje exitoso", "Usuario registrado exitosamente!");
+        //model.addAttribute("roles", roles);
         model.addAttribute("title","Agregar Usuario ");
-        model.addAttribute("dato", usuario);
+        model.addAttribute("usuario", new Usuario());
 
-        return "usuarios/form";
+        return "/registro";
     }
 
 
     @GetMapping("/editar/{id}")
-    public String editar(@PathVariable("id") Integer id, Model model) {
-        List<Rol> roles = rolRepository.findAll();
+    public String editar(@PathVariable Integer id, Model model) {
         Optional<Usuario> usuarioOpt = usuarioRepositorio.findById(id);
         if (usuarioOpt.isPresent()) {
             model.addAttribute("usuario", usuarioOpt.get());
             model.addAttribute("title", "Editar usuario:");
-            model.addAttribute("roles", roles);
             return "usuarios/form";
         } else {
             return "redirect:/usuarios/";
@@ -71,7 +69,7 @@ public class UsuarioController {
 
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute("usuario") Usuario usuario) {
+    public String guardar(@ModelAttribute Usuario usuario) {
         usuarioRepositorio.save(usuario);
         return "redirect:/usuarios/";
     }

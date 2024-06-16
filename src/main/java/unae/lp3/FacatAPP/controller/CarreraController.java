@@ -54,7 +54,7 @@ public class CarreraController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute("carrera") Carrera carrera) {
+    public String guardar(@ModelAttribute Carrera carrera) {
         carreraRepository.save(carrera);
         return "redirect:/carreras/";
     }

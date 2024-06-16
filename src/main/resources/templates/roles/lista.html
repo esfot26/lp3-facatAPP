@@ -18,7 +18,7 @@
         }
 
         .table .actions-column {
-            width: 140px; 
+            width: 210px;
             text-align: center; 
         }
 
@@ -42,8 +42,19 @@
                     <td th:text="${rol.id}"></td>
                     <td th:text="${rol.nombre}"></td>
                     <td class="actions-column">
-                        <a class="btn btn-warning btn-sm"  th:href="@{/roles/editar/}+${rol.id}">Editar</a>
-                        <a class="btn btn-danger btn-sm ml-2" th:href="@{/roles/borrar/}+${rol.id}" onclick="return confirm('¿Estás seguro de que deseas borrar este rol?');">Borrar</a>
+                        <a class="btn btn-warning btn-sm" th:href="@{/roles/editar/{id}(id=${rol.id})}">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;">
+                                <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                                <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                            </svg>
+                        </a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/roles/borrar/{id}(id=${rol.id})}"
+                           onclick="return confirm('¿Estás seguro de que deseas borrar esta carrera?');">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </a>
                     </td>
                 </tr>
             </tbody>

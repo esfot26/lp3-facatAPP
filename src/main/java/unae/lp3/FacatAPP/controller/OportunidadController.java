@@ -39,7 +39,7 @@ public class OportunidadController {
     
 
     @GetMapping("/editar/{id}")
-    public String editarOportunidad(@PathVariable("id") Integer id, Model model) {
+    public String editarOportunidad(@PathVariable Integer id, Model model) {
         Optional<Oportunidad> oportunidad = oportunidadRepository.findById(id);
         model.addAttribute("oportunidad", oportunidad);
         model.addAttribute("title", "Editar oportunidad");
@@ -48,7 +48,7 @@ public class OportunidadController {
 
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute("oportunidad") Oportunidad oportunidad) {
+    public String guardar(@ModelAttribute Oportunidad oportunidad) {
         oportunidadRepository.save(oportunidad);
         return "redirect:/oportunidades/";
     }

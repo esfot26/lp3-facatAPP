@@ -18,7 +18,7 @@
         }
 
         .table .actions-column {
-            width: 150px; /* Ajusta el ancho según sea necesario */
+            width: 210px; /* Ajusta el ancho según sea necesario */
             text-align: center; /* Centra el contenido */
         }
 
@@ -32,6 +32,9 @@
     <br>
     <h1>Gestión de Carreras</h1><br>    
     <h2 th:text="${header}">title</h2>
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Buscar...">
+    </div>
     <table class="table table-striped">
         <thead class="thead-dark">
             <th>ID</th>
@@ -39,14 +42,25 @@
             <th>Facultad</th>
             <th class="actions-column">Acciones</th>
         </thead>
-        <tbody>       
+        <tbody id="carrerasTable">       
             <tr th:each="carrera:${carreras}">
                 <td th:text="${carrera.id}"></td>
                 <td th:text="${carrera.sigla}"></td>
                 <td th:text="${carrera.nombre}"></td>
                 <td class="actions-column">
-                    <a class="btn btn-warning btn-sm" th:href="@{/carreras/editar/{id}(id=${carrera.id})}">Editar</a>
-                    <a class="btn btn-danger btn-sm" th:href="@{/carreras/borrar/{id}(id=${carrera.id})}" onclick="return confirm('¿Estás seguro de que deseas borrar esta carrera?');">Borrar</a>
+                    <a class="btn btn-warning btn-sm" th:href="@{/carreras/editar/{id}(id=${carrera.id})}">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;">
+                            <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                            <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                        </svg>
+                    </a>
+                    <a class="btn btn-danger btn-sm" th:href="@{/carreras/borrar/{id}(id=${carrera.id})}"
+                       onclick="return confirm('¿Estás seguro de que deseas borrar esta carrera?');">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </a>
                 </td>
             </tr>
         </tbody>
@@ -54,5 +68,25 @@
     <th colspan="2"><a href="/carreras/nuevo" class="btn btn-primary">Crear nueva carrera</a></th>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        var searchValue = this.value.toLowerCase();
+        var rows = document.querySelectorAll('#carrerasTable tr');
+
+        rows.forEach(function(row) {
+            var showRow = Array.from(row.cells).some(function(cell) {
+                return cell.textContent.toLowerCase().includes(searchValue);
+            });
+
+            if (showRow) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>

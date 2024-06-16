@@ -49,11 +49,9 @@ public class Usuario {
             unique = true)
     private String email;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usr_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "rol_id"))
+    @JoinTable(name = "usr_roles",joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
 	
-	private Collection<Rol> roles;
+	public Collection<Rol> roles;
     @CreationTimestamp
     private LocalDateTime created_at;
     @UpdateTimestamp
@@ -141,6 +139,11 @@ public class Usuario {
     @Override
     public String toString() {
         return "Usuario{" + "id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + ", active=" + active + ", email=" + email + ", roles=" + roles + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
+    }
+
+    public void setApellido(String email2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setApellido'");
     }
 
 }
