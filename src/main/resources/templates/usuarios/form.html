@@ -17,11 +17,15 @@
     </style>
 </head>
 <body>
+    <header>
+        <div th:replace="/comunes/navbar.html"></div>
+    </header><br>
     <div class="container" id="registro-container">
         <div class="border border-dark rounded p-5 shadow">
             <div th:if="${mensaje}" class="alert alert-info" th:text="${mensaje}"></div>
             <h2 th:text="${title}">title</h2> 
-            <form th:action="@{/registro}" method="post" th:object="${usuario}">
+            <form th:action="@{/usuarios/guardar}" method="post" th:object="${usuario}">
+                <input type="hidden" id="id"  th:field="*{id}"  > <br>
                 <div class="mb-3">
                     <label for="username" class="form-label">Nombre de Usuario</label>
                     <input type="text" name="username" id="username" class="form-control" placeholder="Nombre de usuario" th:field="*{username}" required>
@@ -38,6 +42,7 @@
                     <label for="password" class="form-label">Contraseña</label>
                     <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" th:field="*{password}" required>
                 </div>
+                
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success">Enviar</button>
                     <button type="button" onclick="window.history.back()" class="btn btn-secondary">Atrás</button>

@@ -124,4 +124,6 @@ public class Materia {
         return "Materia{" + "id=" + id + ", nombre=" + nombre + ", codigo=" + codigo + ", year=" + year + ", carrera=" + carrera + ", docente=" + docente + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
     }
 
+
+    
 }

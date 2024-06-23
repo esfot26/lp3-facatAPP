@@ -33,6 +33,7 @@ public class OportunidadController {
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         Oportunidad oportunidad = new Oportunidad();
+        model.addAttribute("title", "Agregar oportunidad");
         model.addAttribute("oportunidad", oportunidad);
         return "oportunidades/form";
     }

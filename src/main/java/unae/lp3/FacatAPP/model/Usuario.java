@@ -141,9 +141,6 @@ public class Usuario {
         return "Usuario{" + "id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + ", active=" + active + ", email=" + email + ", roles=" + roles + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
     }
 
-    public void setApellido(String email2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setApellido'");
-    }
+
 
 }

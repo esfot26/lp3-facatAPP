@@ -1,8 +1,7 @@
 package unae.lp3.FacatAPP.services;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,9 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import unae.lp3.FacatAPP.model.Rol;
+
 import unae.lp3.FacatAPP.model.Usuario;
-import unae.lp3.FacatAPP.repository.RolRepository;
+//import unae.lp3.FacatAPP.repository.RolRepository;
 import unae.lp3.FacatAPP.repository.UsuarioRepositorio;
 
 @Service
@@ -25,8 +24,8 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired 
     private UsuarioRepositorio usuarioRepositorio;
 
-    @Autowired 
-    private RolRepository rolRepository;
+    // @Autowired 
+    // private RolRepository rolRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -70,7 +69,7 @@ public class UsuarioServicio implements UserDetailsService {
         Usuario usuarioExistente = usuarioRepositorio.findById(id).orElse(null);
         if (usuarioExistente != null) {
             usuarioExistente.setName(usuarioDatos.getName());
-            usuarioExistente.setApellido(usuarioDatos.getEmail());
+            usuarioExistente.setEmail(usuarioDatos.getEmail());
             usuarioExistente.setUsername(usuarioDatos.getUsername());
             usuarioExistente.setPassword(usuarioDatos.getPassword());
             usuarioRepositorio.save(usuarioExistente);

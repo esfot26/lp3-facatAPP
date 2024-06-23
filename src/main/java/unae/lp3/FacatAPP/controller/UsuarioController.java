@@ -32,8 +32,6 @@ public class UsuarioController {
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
 
-
-
     @Autowired
     RolRepository rolRepository;
 
@@ -51,9 +49,8 @@ public class UsuarioController {
         model.addAttribute("title","Agregar Usuario ");
         model.addAttribute("usuario", new Usuario());
 
-        return "/registro";
+        return "usuarios/form";
     }
-
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {

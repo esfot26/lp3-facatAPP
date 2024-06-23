@@ -11,8 +11,9 @@
     </head>
         <body>
             <div class="container">    
-                <h2 th:text="${title}+${dato.nombre}">title</h2> 
+               
               <form method="post" th:action="@{/roles/guardar}" th:object="${dato}" class="border border-dark rounded p-5 shadow">  
+                <h2 th:text="${title}+${dato.nombre}">title</h2> 
                 <div class="form-group">
                 <input type="hidden" id="id"  th:field="*{id}"  > <br>
                 <label for="name">Nombre:</label><br>

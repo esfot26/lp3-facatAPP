@@ -32,7 +32,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/", "/registro", "/css/**").permitAll()  // Asegúrate de que la ruta de registro sea correcta
+                                .requestMatchers("/", "/registro", "/css/**").permitAll() 
+                                .requestMatchers("/static/**").permitAll() // Asegúrate de que la ruta de registro sea correcta
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/secretario/**").hasRole("SECRETARIO")
                                 .requestMatchers("/vistas/**").hasRole("VISTAS")
