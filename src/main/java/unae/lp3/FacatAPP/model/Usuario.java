@@ -12,12 +12,18 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
+
 //import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 
 
 
@@ -25,35 +31,37 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Table(name = "usuarios", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Usuario {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "user_nombre",
-            length = 100,
-            nullable = false)
+
+    @Column(name = "user_nombre", length = 100, nullable = false)
+    @NotEmpty(message = "El nombre no puede estar vacío")
     private String name;
-    @Column(name = "username",
-            length = 100,
-            nullable = false,
-            unique = true)
+
+    @Column(name = "username", length = 100, nullable = false, unique = true)
+    @NotEmpty(message = "El nombre de usuario no puede estar vacío")
     private String username;
-    @Column(name = "password",
-            length = 160,
-            nullable = false)
+
+    @Column(name = "password", length = 160)
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
+
     @Column(name = "user_activo")
     private Boolean active = false;
-    @Column(name = "user_mail",
-            length = 100,
-            nullable = false,
-            unique = true)
+
+    @Column(name = "user_mail", length = 100, nullable = false, unique = true)
+    @Email(message = "Debe ser una dirección de correo electrónico válida")
+    @NotEmpty(message = "El correo electrónico no puede estar vacío")
     private String email;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usr_roles",joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
-	
-	public Collection<Rol> roles;
+    @JoinTable(name = "usr_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
+    private Collection<Rol> roles = new HashSet<>();
+
     @CreationTimestamp
     private LocalDateTime created_at;
+
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
@@ -138,9 +146,12 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + ", active=" + active + ", email=" + email + ", roles=" + roles + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
+        return "Usuario [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password
+                + ", active=" + active + ", email=" + email + ", roles=" + roles + ", created_at=" + created_at
+                + ", updated_at=" + updated_at + ", getId()=" + getId() + ", getName()=" + getName()
+                + ", getUsername()=" + getUsername() + ", getPassword()=" + getPassword() + ", getActive()="
+                + getActive() + ", getEmail()=" + getEmail() + ", getRoles()=" + getRoles() + ", getCreated_at()="
+                + getCreated_at() + ", getUpdated_at()=" + getUpdated_at() + ", getClass()=" + getClass()
+                + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
     }
-
-
-
 }

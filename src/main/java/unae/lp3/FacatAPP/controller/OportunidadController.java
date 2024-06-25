@@ -23,7 +23,7 @@ public class OportunidadController {
     @Autowired
     private OportunidadRepository oportunidadRepository;
 
-     @GetMapping("/")
+    @GetMapping("/")
     public String index(Model model) {
         List<Oportunidad> oportunidad = oportunidadRepository.findAll();
         model.addAttribute("oportunidades", oportunidad);

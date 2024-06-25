@@ -18,6 +18,16 @@ public class RegistroControlador {
     @Autowired
     private UsuarioServicio servicio;
 
+    // @GetMapping("/login")
+    // public String iniciarSesion() {
+    //     return "login";
+    // }
+
+    // @GetMapping("/")
+    // public String verPaginaDeInicio(Model modelo) {
+    //     return "index";
+    // }
+
     @GetMapping("/login")
     public String iniciarSesion() {
         return "login";
@@ -25,6 +35,11 @@ public class RegistroControlador {
 
     @GetMapping("/")
     public String verPaginaDeInicio(Model modelo) {
+        return "redirect:/login"; // Redirige siempre al login al acceder a la raíz
+    }
+
+    @GetMapping("/index")
+    public String mostrarIndex(Model modelo) {
         return "index";
     }
 

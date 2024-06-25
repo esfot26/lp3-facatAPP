@@ -1,23 +1,46 @@
+/* Estilo de la tabla */
 .table {
+    width: 100%;
     border: 2px solid #dee2e6;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse; /* Para fusionar los bordes de las celdas */
+    margin-bottom: 20px; /* Espacio entre la tabla y otros elementos */
 }
 
 .table thead th,
 .table tbody td {
-    border: 1px solid #dee2e6; 
+    border: 1px solid #dee2e6;
+    padding: 10px; /* Añadir espacio dentro de las celdas */
+    text-align: left; /* Alinear el texto a la izquierda */
 }
 
+/* Columna de acciones */
 .table .actions-column {
-    width: 210px; 
-    text-align: center; 
+    width: 210px;
+    text-align: center;
 }
 
+/* Estilo de los botones dentro de la tabla */
 .table .btn {
-    margin: 2px; 
+    margin: 5px; /* Aumentar el espacio entre los botones */
+    padding: 8px 12px; /* Aumentar el espacio interno de los botones */
+    border: none;
+    background-color: #007bff; /* Color azul - ajusta según tu paleta de colores */
+    color: #fff; /* Texto blanco para contrastar */
+    cursor: pointer;
+    text-decoration: none; /* Eliminar subrayado enlaces */
+    border-radius: 4px; /* Esquinas redondeadas */
 }
 
+.table .btn:hover {
+    background-color: #0056b3; /* Cambio de color al pasar el mouse */
+}
 
+/* Estilo general del cuerpo de la página */
 body {
     background-color: #f0f7fd; /* Azul claro */
+    font-family: Arial, sans-serif; /* Fuente predeterminada */
+    line-height: 1.6; /* Espaciado entre líneas */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    padding: 20px; /* Espacio interno alrededor del contenido */
 }

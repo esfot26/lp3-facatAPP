@@ -99,16 +99,16 @@ public class Acta {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(java.util.Date date) {
+        this.date = (Date) date;
     }
 
     public Date getRdate() {
         return rdate;
     }
 
-    public void setRdate(Date rdate) {
-        this.rdate = rdate;
+    public void setRdate(java.util.Date rdate) {
+        this.rdate = (Date) rdate;
     }
 
     public LocalDateTime getCreated_at() {

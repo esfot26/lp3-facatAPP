@@ -2,7 +2,6 @@ package unae.lp3.FacatAPP.services;
 
 import java.util.Collection;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import unae.lp3.FacatAPP.model.Usuario;
-//import unae.lp3.FacatAPP.repository.RolRepository;
 import unae.lp3.FacatAPP.repository.UsuarioRepositorio;
 
 @Service
@@ -24,34 +21,27 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired 
     private UsuarioRepositorio usuarioRepositorio;
 
-    // @Autowired 
-    // private RolRepository rolRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void guardar(Usuario usuario){
+    public void guardar(Usuario usuario) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepositorio.save(usuario);
-    }   
+    }
 
-    public Usuario findByUsername(String username){
+    public Usuario findByUsername(String username) {
         return usuarioRepositorio.findByUsername(username);
     }
 
-    
-
-    
     @Transactional
-    public void registrarUsuario(Usuario usuario){
+    public void registrarUsuario(Usuario usuario) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        // Rol defaultRole = rolRepository.findByNombre("ROLE_SECRETARIO");
-        // usuario.setRoles(new HashSet<>(Set.of(defaultRole)));
         usuarioRepositorio.save(usuario);
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.findByUsername(username);
         if (usuario == null) {
@@ -60,7 +50,7 @@ public class UsuarioServicio implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(usuario.getUsername(), usuario.getPassword(), (Collection<? extends GrantedAuthority>) usuario.getRoles());
     }
 
-    public Usuario buscarPorId(Integer id){
+    public Usuario buscarPorId(Integer id) {
         return usuarioRepositorio.findById(id).orElse(null);
     }
 
@@ -71,10 +61,26 @@ public class UsuarioServicio implements UserDetailsService {
             usuarioExistente.setName(usuarioDatos.getName());
             usuarioExistente.setEmail(usuarioDatos.getEmail());
             usuarioExistente.setUsername(usuarioDatos.getUsername());
-            usuarioExistente.setPassword(usuarioDatos.getPassword());
+            
+            // Verificar y cifrar la nueva contraseña solo si es diferente y no está vacía
+            if (usuarioDatos.getPassword() != null && !usuarioDatos.getPassword().isEmpty() &&
+                !passwordEncoder.matches(usuarioDatos.getPassword(), usuarioExistente.getPassword())) {
+                usuarioExistente.setPassword(passwordEncoder.encode(usuarioDatos.getPassword()));
+            }
+    
             usuarioRepositorio.save(usuarioExistente);
             return true;
         }
         return false;
     }
+    
+    public boolean validarAnteriorpassword(Usuario usuario, String oldPassword) {
+        return passwordEncoder.matches(oldPassword, usuario.getPassword());
+    }
+
+    public void cambiarPassword(Usuario usuario, String newPassword) {
+        usuario.setPassword(passwordEncoder.encode(newPassword));
+        usuarioRepositorio.save(usuario);
+    }
+    
 }

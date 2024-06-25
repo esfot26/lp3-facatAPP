@@ -25,31 +25,31 @@ public class SecurityConfiguration {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usuarioServicio).passwordEncoder(passwordEncoder());
+    auth.userDetailsService(usuarioServicio).passwordEncoder(passwordEncoder());
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/", "/registro", "/css/**").permitAll() 
-                                .requestMatchers("/static/**").permitAll() // Asegúrate de que la ruta de registro sea correcta
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/secretario/**").hasRole("SECRETARIO")
-                                .requestMatchers("/vistas/**").hasRole("VISTAS")
-                                .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form
-                                .loginPage("/login")
-                                .defaultSuccessUrl("/", true)  // Redirige al inicio después de un login exitoso
-                                .permitAll()
-                )
-                .logout((logout) -> logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessUrl("/login?logout")
-                                .permitAll()
-                )
-                .csrf(csrf -> csrf.disable());  // Puedes habilitar esto si estás manejando CSRF tokens adecuadamente
+            .authorizeHttpRequests((requests) -> requests
+                .requestMatchers("/", "/registro", "/css/**", "/js/**", "/images/**").permitAll()  // Ajusta las rutas públicas según sea necesario
+                .requestMatchers("/usuarios/cambiar-password").authenticated()  // Protege la ruta de cambio de contraseña
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/secretario/**").hasRole("SECRETARIO")
+                .requestMatchers("/vistas/**").hasRole("VISTAS")
+                .anyRequest().authenticated()
+            )
+            .formLogin((form) -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/index", true)
+                .permitAll()
+            )
+            .logout((logout) -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            )
+            .csrf(csrf -> csrf.disable()); 
         return http.build();
     }
 }
